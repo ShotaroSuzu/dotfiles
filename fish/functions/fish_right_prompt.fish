@@ -68,6 +68,32 @@ function __bobthefish_timestamp -S -d 'Show the current timestamp'
         or date $theme_date_format
 end
 
+function __sho_prompt_asdf_node -S -d 'Displaya asdf current node version'
+    set -l should_show
+    if [ "$theme_display_node" = 'yes' ]
+        __bobthefish_prompt_find_file_up "$PWD" .tool-versions
+        and set should_show 1
+    end
+
+    [ -z "$should_show" ]
+    and return
+
+    set -l node_manager 'asdf'
+    set -l node_manager_dir $ASDF_DIR
+
+    [ -n "$node_manager_dir" ]
+    or return
+
+    set -l node_version ("$node_manager" current 2> /dev/null)
+
+    [ -z $node_version -o "$node_version" = 'none' -o "$node_version" = 'system' ]
+    and return
+
+    __bobthefish_start_segment $color_node
+    echo -ns $node_glyph $node_version ' '
+    set_color normal
+end
+
 function fish_right_prompt -d 'bobthefish is all about the right prompt'
     set -l __bobthefish_left_arrow_glyph \uE0B3
     if [ "$theme_powerline_fonts" = "no" -a "$theme_nerd_fonts" != "yes" ]
@@ -76,6 +102,7 @@ function fish_right_prompt -d 'bobthefish is all about the right prompt'
 
     set_color $fish_color_autosuggestion
 
+    __sho_prompt_asdf_node
     __bobthefish_cmd_duration
     __bobthefish_timestamp
     set_color normal

@@ -1174,7 +1174,7 @@ function fish_prompt -d 'bobthefish, a fish theme optimized for awesome'
     __bobthefish_prompt_rubies
     __bobthefish_prompt_virtualfish
     __bobthefish_prompt_virtualgo
-    __bobthefish_prompt_node
+    # __bobthefish_prompt_node move to right prompt
 
     set -l real_pwd (__bobthefish_pwd)
 
